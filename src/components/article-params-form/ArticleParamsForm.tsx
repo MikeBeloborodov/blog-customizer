@@ -1,5 +1,6 @@
 import styles from './ArticleParamsForm.module.scss';
 import clsx from 'clsx';
+import { useState } from 'react';
 
 import { Text } from '../text';
 import { Select } from '../select';
@@ -16,26 +17,33 @@ import { fontColors } from 'src/constants/articleProps';
 import { backgroundColors } from 'src/constants/articleProps';
 import { contentWidthArr } from 'src/constants/articleProps';
 import { IAllOptions } from 'src/index';
+import { defaultArticleState } from 'src/constants/articleProps';
 
 export type ChangeSelectFn = (selection: OptionType) => void;
 
 interface PropsArticleParamsForm {
 	toggleOpenFn: OnClick;
 	openState: boolean;
-	submitForm: (evt: React.SyntheticEvent) => void;
-	setDefaultOptions: OnClick;
-	formState: IAllOptions;
-	setFormState: React.Dispatch<React.SetStateAction<IAllOptions>>;
+	setPageState: React.Dispatch<React.SetStateAction<IAllOptions>>;
 }
 
 export const ArticleParamsForm = ({
 	toggleOpenFn,
 	openState,
-	submitForm,
-	setDefaultOptions,
-	formState,
-	setFormState,
+	setPageState,
 }: PropsArticleParamsForm) => {
+	const [formState, setFormState] = useState<IAllOptions>(defaultArticleState);
+
+	function setDefaultOptions() {
+		setFormState(defaultArticleState);
+		setPageState(defaultArticleState);
+	}
+
+	function submitForm(evt: React.SyntheticEvent) {
+		evt.preventDefault();
+		setPageState(formState);
+	}
+
 	return (
 		<>
 			<ArrowButton toggleOpenFn={toggleOpenFn} openState={openState} />

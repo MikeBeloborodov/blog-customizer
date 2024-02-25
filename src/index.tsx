@@ -22,7 +22,6 @@ export interface IAllOptions {
 
 const App = () => {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
-	const [formState, setFormState] = useState<IAllOptions>(defaultArticleState);
 	const [pageState, setPageState] = useState<IAllOptions>(defaultArticleState);
 
 	function toggleOpen() {
@@ -31,16 +30,6 @@ const App = () => {
 
 	function handleClose() {
 		setIsOpen(false);
-	}
-
-	function setDefaultOptions() {
-		setFormState(defaultArticleState);
-		setPageState(defaultArticleState);
-	}
-
-	function submitForm(evt: React.SyntheticEvent) {
-		evt.preventDefault();
-		setPageState(formState);
 	}
 
 	return (
@@ -58,10 +47,7 @@ const App = () => {
 			<ArticleParamsForm
 				toggleOpenFn={toggleOpen}
 				openState={isOpen}
-				submitForm={submitForm}
-				setDefaultOptions={setDefaultOptions}
-				formState={formState}
-				setFormState={setFormState}
+				setPageState={setPageState}
 			/>
 			<Article closeFn={handleClose} />
 		</div>
