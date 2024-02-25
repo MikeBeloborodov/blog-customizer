@@ -15,6 +15,7 @@ import { fontSizeOptions } from 'src/constants/articleProps';
 import { fontColors } from 'src/constants/articleProps';
 import { backgroundColors } from 'src/constants/articleProps';
 import { contentWidthArr } from 'src/constants/articleProps';
+import { IAllOptions } from 'src/index';
 
 export type ChangeSelectFn = (selection: OptionType) => void;
 
@@ -23,16 +24,8 @@ interface PropsArticleParamsForm {
 	openState: boolean;
 	submitForm: (evt: React.SyntheticEvent) => void;
 	setDefaultOptions: OnClick;
-	fontFamilyOption: OptionType;
-	setFontFamilyOption: ChangeSelectFn;
-	fontSizeOption: OptionType;
-	setFontSizeOption: ChangeSelectFn;
-	fontColorOption: OptionType;
-	setFontColorOption: ChangeSelectFn;
-	backgroundColorOption: OptionType;
-	setBackgroundColorOption: ChangeSelectFn;
-	contentWidthOption: OptionType;
-	setContentWidthOption: ChangeSelectFn;
+	formState: IAllOptions;
+	setFormState: React.Dispatch<React.SetStateAction<IAllOptions>>;
 }
 
 export const ArticleParamsForm = ({
@@ -40,61 +33,74 @@ export const ArticleParamsForm = ({
 	openState,
 	submitForm,
 	setDefaultOptions,
-	fontFamilyOption,
-	setFontFamilyOption,
-	fontSizeOption,
-	setFontSizeOption,
-	fontColorOption,
-	setFontColorOption,
-	backgroundColorOption,
-	setBackgroundColorOption,
-	contentWidthOption,
-	setContentWidthOption,
+	formState,
+	setFormState,
 }: PropsArticleParamsForm) => {
 	return (
 		<>
 			<ArrowButton toggleOpenFn={toggleOpenFn} openState={openState} />
 			<aside
-				className={
-					openState
-						? clsx(styles.container, styles.container_open)
-						: clsx(styles.container)
-				}>
+				className={clsx({
+					[styles.container]: true,
+					[styles.container_open]: openState,
+				})}>
 				<form className={styles.form} onSubmit={submitForm}>
-					<Text as='h2' size={31} weight={800} uppercase dynamicLite>
+					<Text as='h1' size={31} weight={800} uppercase dynamicLite>
 						Задайте параметры
 					</Text>
 					<Select
 						title='шрифт'
-						selected={fontFamilyOption}
+						selected={formState.fontFamilyOption}
 						options={fontFamilyOptions}
-						onChange={setFontFamilyOption}
+						onChange={(selected) =>
+							setFormState((oldState) => ({
+								...oldState,
+								fontFamilyOption: selected,
+							}))
+						}
 					/>
 					<RadioGroup
 						title='размер шрифта'
 						name='font-size'
-						selected={fontSizeOption}
+						selected={formState.fontSizeOption}
 						options={fontSizeOptions}
-						onChange={setFontSizeOption}
+						onChange={(selected) =>
+							setFormState((oldState) => ({
+								...oldState,
+								fontSizeOption: selected,
+							}))
+						}
 					/>
 					<Select
 						title='цвет шрифта'
-						selected={fontColorOption}
+						selected={formState.fontColor}
 						options={fontColors}
-						onChange={setFontColorOption}
+						onChange={(selected) =>
+							setFormState((oldState) => ({ ...oldState, fontColor: selected }))
+						}
 					/>
 					<Separator />
 					<Select
 						title='цвет фона'
-						selected={backgroundColorOption}
+						selected={formState.backgroundColor}
 						options={backgroundColors}
-						onChange={setBackgroundColorOption}
+						onChange={(selected) =>
+							setFormState((oldState) => ({
+								...oldState,
+								backgroundColor: selected,
+							}))
+						}
 					/>
 					<Select
 						title='ширина контента'
-						selected={contentWidthOption}
+						selected={formState.contentWidth}
 						options={contentWidthArr}
-						onChange={setContentWidthOption}
+						onChange={(selected) =>
+							setFormState((oldState) => ({
+								...oldState,
+								contentWidth: selected,
+							}))
+						}
 					/>
 					<div className={styles.bottomContainer}>
 						<Button title='Сбросить' type='reset' onClick={setDefaultOptions} />

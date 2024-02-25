@@ -18,12 +18,18 @@ export const ArrowButton = ({ toggleOpenFn, openState }: PropsArrowButton) => {
 			aria-label='Открыть/Закрыть форму параметров статьи'
 			tabIndex={0}
 			onClick={toggleOpenFn}
-			className={
-				openState
-					? clsx(styles.container, styles.container_open)
-					: clsx(styles.container)
-			}>
-			<img src={arrow} alt='иконка стрелочки' className={styles.arrow} />
+			className={clsx({
+				[styles.container]: true,
+				[styles.container_open]: openState,
+			})}>
+			<img
+				src={arrow}
+				alt='иконка стрелочки'
+				className={clsx({
+					[styles.arrow]: true,
+					[styles.arrow_open]: openState,
+				})}
+			/>
 		</div>
 	);
 };
